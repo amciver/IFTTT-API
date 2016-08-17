@@ -9,17 +9,17 @@ var entityGenerator = azure.TableUtilities.entityGenerator;
 /* GET runscope definition. */
 router.get('/', function(req, res) {
   
-var task = {
-              PartitionKey: entityGenerator.String('status'),
-              RowKey: entityGenerator.String('1'),
-              data: entityGenerator.String('available'),
-             //dueDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
-            };
-tableSvc.insertEntity(,task, function (error, result, response) {
-  if(!error){
-    // Entity inserted
-  }
-});
+// var task = {
+//               PartitionKey: entityGenerator.String('status'),
+//               RowKey: entityGenerator.String('1'),
+//               data: entityGenerator.String('available'),
+//              //dueDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
+//             };
+// tableSvc.insertEntity(,task, function (error, result, response) {
+//   if(!error){
+//     // Entity inserted
+//   }
+// });
   res.send('This is the runscope API');
 });
 
