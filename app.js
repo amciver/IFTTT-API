@@ -10,6 +10,7 @@ var runscope = require('./routes/runscope');
 
 var app = express();
 
+//modify process.title so we can use it for npm stop/start
 process.title = 'runscope-api'
 
 // view engine setup
