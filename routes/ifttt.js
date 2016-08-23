@@ -5,9 +5,11 @@ var router = express.Router();
 var azure = require('azure-storage');
 var storageTable = 'vehicle';
 var storagePartition = 'status';
+var storageAccount = 'comexperimentapis'; 
+var accessKey = '5GLcDhmszAV59vzEMXljPizHtmFWp0x+d+Srzxtg5ShgYRJDjP66EM7zL4YQHqZDh5BHExnSF9MnWMx0Zdbpcg==';
 
-//set up the azure table service based on server side credentials
-var tableSvc = azure.createTableService();
+//set up the azure table service based on server credentials
+var tableSvc = azure.createTableService(storageAccount, accessKey);
 var entityGenerator = azure.TableUtilities.entityGenerator;
 
 //used to generate uuid for the table RowKey
