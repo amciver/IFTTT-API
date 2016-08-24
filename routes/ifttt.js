@@ -4,7 +4,7 @@ var router = express.Router();
 //set up azure storage
 var azure = require('azure-storage');
 var storageTable = 'vehicle';
-var storagePartition = 'status';
+var storagePartition = 'speed';
 
 //set up the azure table service based on server credentials
 var tableSvc = azure.createTableService();
