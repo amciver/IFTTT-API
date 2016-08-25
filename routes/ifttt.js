@@ -47,10 +47,12 @@ router.get('/api/v1/status', function(req, res) {
 /* POST speed to BMW IFTTT API via body */
 router.post('/api/v1/speed', function(req, res) {
     var speed = req.body.speed;
+    var triggeredTime = req.body.triggered;
     var task = {
               PartitionKey: entityGenerator.String(storagePartition),
               RowKey: entityGenerator.String(uuid.v4()),
               data: entityGenerator.String(speed),
+              triggered: entityGenerator.String(triggeredTime)
              //entryDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
             };
     tableSvc.insertEntity(storageTable ,task, function (error, result, response) {
