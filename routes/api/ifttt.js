@@ -4,7 +4,7 @@ var azure = require('azure');
 
 //set up the azure table service based on server credentials
 var tableSvc = azure.createTableService();
-var entityGenerator = azure.TableUtilities.entityGenerator;
+//var entityGenerator = azure.TableUtilities.entityGenerator;
 
 //used to generate uuid for the table RowKey
 var uuid = require('node-uuid');
