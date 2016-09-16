@@ -6,8 +6,6 @@ var azure = require('azure');
 var tableSvc = azure.createTableService();
 //var entityGenerator = azure.TableUtilities.entityGenerator;
 
-//used to generate uuid for the table RowKey
-var uuid = require('node-uuid');
 
 //var ns = 'com-experiment-messaging';
 //var serviceBusService = azure.createServiceBusService(ns);
@@ -48,7 +46,8 @@ router.post('/api/v1/speed', function(req, res) {
     var speed = req.body.speed;
     var triggeredTime = req.body.triggered;
     var message = {
-      body: '{"speed": "${speed}","triggeredTime": "${triggeredTime}"}'};
+      body: "{\"speed\":"+ speed + ", \"triggeredTime\":" + triggeredTime + "\"}"}
+      //body: '{\"speed\": "${speed}",\"triggeredTime\": "${triggeredTime}"}'};
     
     console.log("posting message [" + message.body + "]")
 

@@ -9,6 +9,9 @@ var storageTable = 'vehicle';
 var storagePartition = 'speed';
 var tableSvc = azure.createTableService();
 
+//used to generate uuid for the table RowKey
+var uuid = require('node-uuid');
+
 // set up service bus topic/subscription
 var connectionString = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=RootManagerSharedAccessKey;SharedAccessKey=8dhjlMuBYr6ck4QRG0HGttktDZLe6EkcucD0Gjmyp9A=;";
 var topic = "iftttmessagestopic";
