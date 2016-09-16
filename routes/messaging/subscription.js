@@ -31,8 +31,9 @@ function getMessages(){
 
  serviceBusService.receiveSubscriptionMessage(topic, subscription, function(error, receivedMessage){
     if(!error){
-            console.log("func:getMessages() message received [" + receivedMessage + "]");
-            var message = JSON.parse(receivedMessage);
+            console.log("func:getMessages() message received [" + JSON.stringify(receivedMessage) + "]");
+            
+            var message = JSON.parse(receivedMessage.body);
             var speed = message.speed;
             var triggeredTime = message.triggeredTime;
 
