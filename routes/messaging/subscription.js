@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 /* GET messages. */
 router.get('/v1/messages', function(req, res, next) {
   getMessages();
-  res.render('index', { title: 'BMW IFTTT' });
+  //res.sendStatus(200);
 });
 
 function getMessages(){
@@ -32,8 +32,13 @@ function getMessages(){
  serviceBusService.receiveSubscriptionMessage(topic, subscription, function(error, receivedMessage){
     if(!error){
             var message = JSON.parse(receivedMessage);
+
+            console.log("func:getMessages() message received [" + receivedMessage + "]");
+
             var speed = message.speed;
             var triggeredTime = message.triggeredTime;
+
+            console.log("func:getMessages() data extracted [" + speed + "], [" + triggeredTime + "]");
 
             var task = {
               PartitionKey: entityGenerator.String(storagePartition),
@@ -42,10 +47,12 @@ function getMessages(){
               triggered: entityGenerator.String(triggeredTime)
              //entryDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
             };
-    tableSvc.insertEntity(storageTable ,task, function (error, result, response) {
+    tableSvc.insertEntity(storageTable, task, function (error, result, response) {
       if(!error){
+          console.log("func:getMessages() message [" + receivedMessage + "] successfully processed")
           res.sendStatus(200);
       }
+
     });
         // message received and deleted
         console.log(receivedMessage);
