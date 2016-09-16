@@ -6,7 +6,10 @@ var azure = require('azure');
 var azure_storage = require('azure-storage');
 var storageTable = 'vehicle';
 var storagePartition = 'speed';
+var tableSvc = azure.createTableService();
+var entityGenerator = azure.TableUtilities.entityGenerator;
 
+// set up service bus topic/subscription
 var connectionString = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=RootManagerSharedAccessKey;SharedAccessKey=8dhjlMuBYr6ck4QRG0HGttktDZLe6EkcucD0Gjmyp9A=;";
 var topic = "iftttmessagestopic";
 var subscription = "IFTTTBMWMessagesSubscription";
