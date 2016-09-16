@@ -46,7 +46,7 @@ router.post('/api/v1/speed', function(req, res) {
     var speed = req.body.speed;
     var triggeredTime = req.body.triggered;
     var message = {
-      body: "{\"speed\":"+ speed + ", \"triggeredTime\":" + triggeredTime + "\"}"}
+      body: "{\"speed\":\"" + speed + "\", \"triggeredTime\":\"" + triggeredTime + "\"}"}
       //body: '{\"speed\": "${speed}",\"triggeredTime\": "${triggeredTime}"}'};
     
     console.log("posting message [" + message.body + "]")
