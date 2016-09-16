@@ -50,10 +50,16 @@ router.post('/api/v1/speed', function(req, res) {
     var message = {
       body: '{"speed": "${speed}","triggeredTime": "${triggeredTime}"}'};
     
+    console.log("posting message [" + JSON.stringify(message.body) + "]")
+
     //place a message on service bus to get consumed
     serviceBusService.sendTopicMessage(topic, message, function(error) {
       if (error) {
         console.log(error);
+      }
+      else {
+        console.log("message successfully posted");
+        res.send(200);
       }
     });
 });
