@@ -24,13 +24,18 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'BMW IFTTT SUBSCRIPTION' });
 });
 
+
+router.get('/v1/messages/purge', function(req, res, next) {
+  res.sendStatus(200);
+});
+
 /* GET messages. */
 router.get('/v1/messages', function(req, res, next) {
-  getMessages();
+  getMessages(res);
   //res.sendStatus(200);
 });
 
-function getMessages(){
+function getMessages(res){
 
  serviceBusService.receiveSubscriptionMessage(topic, subscription, function(error, receivedMessage){
     if(!error){
