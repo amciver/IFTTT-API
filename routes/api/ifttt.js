@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var azure = require('azure');
 
+//used to generate uuid for MessageId
+var uuid = require('node-uuid');
+
 //set up the azure table service based on server credentials
 var tableSvc = azure.createTableService();
 //var entityGenerator = azure.TableUtilities.entityGenerator;
