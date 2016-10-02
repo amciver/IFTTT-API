@@ -38,7 +38,7 @@ function getMessages(res){
 
  serviceBusService.receiveSubscriptionMessage(topic, subscription, function(error, receivedMessage){
     if(!error){
-            console.log("func:getMessages() message ["+receivedMessage.brokeredProperties.MessageId+"] received [" + JSON.stringify(receivedMessage) + "]");
+            console.log("func:getMessages() message [" + receivedMessage.brokereProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]");
             
             var message = JSON.parse(receivedMessage.body);
             var speed = message.speed;
@@ -55,7 +55,7 @@ function getMessages(res){
             };
     tableSvc.insertEntity(storageTable, task, function (error, result, response) {
       if(!error){
-          console.log("func:getMessages() message [" + receivedMessage.brokeredProperties.MessageId + "] successfully processed")
+          console.log("func:getMessages() message [" + receivedMessage.brokereProperties.MessageId + "] successfully processed")
           res.sendStatus(200);
       }
 
