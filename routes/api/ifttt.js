@@ -46,18 +46,22 @@ router.post('/api/v1/speed', function(req, res) {
     var speed = req.body.speed;
     var triggeredTime = req.body.triggered;
     var message = {
-      body: "{\"speed\":\"" + speed + "\", \"triggeredTime\":\"" + triggeredTime + "\"}"}
-      //body: '{\"speed\": "${speed}",\"triggeredTime\": "${triggeredTime}"}'};
-    
-    console.log("posting message [" + message.body + "]")
+      body: "{\"speed\":\"" + speed + "\", \"triggeredTime\":\"" + triggeredTime + "\"}",
+      brokerProperties: {
+        MessageId: uuid.v4()
+      }
+    }    
+
+    console.log("posting message ["+ message.brokerProperties.MessageId +"] with body [" + message.body + "]")
 
     //place a message on service bus to get consumed
     serviceBusService.sendTopicMessage(topic, message, function(error) {
       if (error) {
-        console.log(error);
+        console.log("error sending message [" + message.brokerProperties.MessageId + "]");
+        console.error(error);
       }
       else {
-        console.log("message successfully posted");
+        console.log("message [" + message.brokerProperties.message + "] successfully posted");
         res.sendStatus(200);
       }
     });

@@ -24,7 +24,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'BMW IFTTT SUBSCRIPTION' });
 });
 
-
 router.get('/v1/messages/purge', function(req, res, next) {
   res.sendStatus(200);
 });
@@ -56,7 +55,7 @@ function getMessages(res){
             };
     tableSvc.insertEntity(storageTable, task, function (error, result, response) {
       if(!error){
-          console.log("func:getMessages() message [" + receivedMessage + "] successfully processed")
+          console.log("func:getMessages() message [" + receivedMessage.brokeredProperties.MessageId + "] successfully processed")
           res.sendStatus(200);
       }
 
