@@ -64,7 +64,7 @@ router.post('/api/v1/speed', function(req, res) {
         console.error(error);
       }
       else {
-        console.log("message [" + message.brokerProperties.message + "] successfully posted");
+        console.log("message [" + message.brokerProperties.MessageId + "] successfully posted");
         res.sendStatus(200);
       }
     });
