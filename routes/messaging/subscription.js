@@ -58,7 +58,7 @@ function getMessages(res) {
             tableSvc.insertEntity(storageTable, task, function (error, result, response) {
                 if (!error) {
                     console.log("message [" + receivedMessage.brokerProperties.MessageId + "] successfully processed + inserted");
-                    res.status(200).send("\"messageId\":\"" + receivedMessage.brokerProperties.MessageId + "\"}");
+                    res.status(200).send("{\"messageId\":\"" + receivedMessage.brokerProperties.MessageId + "\"}");
                 }
                 else {
                     console.log("message [" + receivedMessage.brokerProperties.MessageId + "] processed; insertion failed");
