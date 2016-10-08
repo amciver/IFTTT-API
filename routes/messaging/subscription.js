@@ -34,36 +34,40 @@ router.get('/v1/messages', function(req, res, next) {
   //res.sendStatus(200);
 });
 
-function getMessages(res){
+function getMessages(res) {
 
- serviceBusService.receiveSubscriptionMessage(topic, subscription, function(error, receivedMessage){
-    if(!error){
-            console.log("func:getMessages() message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]");
-            
+    serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
+        if (!error) {
+            console.log("message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]");
+
             var message = JSON.parse(receivedMessage.body);
             var speed = message.speed;
             var triggeredTime = message.triggeredTime;
 
-            console.log("func:getMessages() data extracted [" + speed + "], [" + triggeredTime + "]");
+            console.log("data extracted speed:[" + speed + "], triggeredTime:[" + triggeredTime + "]");
 
             var task = {
-              PartitionKey: entityGenerator.String(storagePartition),
-              RowKey: entityGenerator.String(uuid.v4()),
-              data: entityGenerator.String(speed),
-              triggered: entityGenerator.String(triggeredTime)
-             //entryDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
+                PartitionKey: entityGenerator.String(storagePartition),
+                RowKey: entityGenerator.String(uuid.v4()),
+                MessageId: entityGenerator.String(message.MessageId),
+                Data: entityGenerator.String(speed),
+                Triggered: entityGenerator.String(triggeredTime)
+                //entryDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
             };
-    tableSvc.insertEntity(storageTable, task, function (error, result, response) {
-      if(!error){
-          console.log("func:getMessages() message [" + receivedMessage.brokerProperties.MessageId + "] successfully processed")
-          res.sendStatus(200);
-      }
-
+            console.log("task created for table insertion [" + task.stringify + "]");
+            tableSvc.insertEntity(storageTable, task, function (error, result, response) {
+                if (!error) {
+                    console.log("message [" + receivedMessage.brokerProperties.MessageId + "] successfully processed + inserted");
+                    res.status(200).send("\"messageId\":\"" + receivedMessage.brokerProperties.MessageId + "\"}");
+                }
+                else {
+                    console.log("message [" + receivedMessage.brokerProperties.MessageId + "] processed; insertion failed");
+                    console.error(error);
+                    res.sendStatus(500);
+                }
+            });
+        }
     });
-        // message received and deleted
-        console.log(receivedMessage);
-    }
-});
 }
    
 
