@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+//var express = require('express');
+//var router = express.Router();
 var azure = require('azure');
 
 // set up azure storage
@@ -19,76 +19,74 @@ var subscription = "IFTTTBMWMessagesSubscription";
 
 var serviceBusService = azure.createServiceBusService(connectionString);
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'BMW IFTTT SUBSCRIPTION' });
-});
+// /* GET home page. */
+// router.get('/', function(req, res, next) {
+//   res.render('index', { title: 'BMW IFTTT SUBSCRIPTION' });
+// });
 
-router.get('/v1/messages/purge', function(req, res, next) {
-  res.sendStatus(200);
-});
+// router.get('/v1/messages/purge', function(req, res, next) {
+//   res.sendStatus(200);
+// });
 
 /* GET messages. */
-router.get('/v1/messages', function(req, res, next) {
-  getMessages(res);
-  //res.sendStatus(200);
+router.get('/v1/messages/retrieve', function(req, res, next) {
+    checkMessages();
+//getMessages(res);
+//res.sendStatus(200);
 });
 
-function getMessages(res) {
+var checkMessages = function () {
+    serviceBusService.receiveSubscriptionMessage(topic, subscription)
+        //serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage))
+        .then(processMessage)
+        .catch(processError)
+        .finally(setNextCheck);
+};
 
-    serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
-        if (!error) {
-            console.log("message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]");
+var processMessage = function (error, receivedMessage) {
+    if (!error) {
+        console.log("message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]")
 
-            var message = JSON.parse(receivedMessage.body);
-            var speed = message.speed;
-            var triggeredTime = message.triggeredTime;
+        var message = JSON.parse(receivedMessage.body)
+        var speed = message.speed
+        var triggeredTime = message.triggeredTime
+        var messageId = message.brokerProperties.MessageId
 
-            console.log("data extracted speed:[" + speed + "], triggeredTime:[" + triggeredTime + "]");
+        console.log("data extracted speed:[" + speed + "], triggeredTime:[" + triggeredTime + "]")
 
-            var task = {
-                PartitionKey: entityGenerator.String(storagePartition),
-                RowKey: entityGenerator.String(uuid.v4()),
-                MessageId: entityGenerator.String(message.MessageId),
-                Data: entityGenerator.String(speed),
-                Triggered: entityGenerator.String(triggeredTime)
-                //entryDate: entityGenerator.DateTime(new Date(Date.UTC(2015, 6, 20))),
-            };
-            console.log("task created for table insertion [" + task.stringify + "]");
-            tableSvc.insertEntity(storageTable, task, function (error, result, response) {
-                if (!error) {
-                    console.log("message [" + receivedMessage.brokerProperties.MessageId + "] successfully processed + inserted");
-                    res.status(200).send("{\"messageId\":\"" + receivedMessage.brokerProperties.MessageId + "\"}");
-                }
-                else {
-                    console.log("message [" + receivedMessage.brokerProperties.MessageId + "] processed; insertion failed");
-                    console.error(error);
-                    res.sendStatus(500);
-                }
-            });
+        var task = {
+            PartitionKey: entityGenerator.String(storagePartition),
+            RowKey: entityGenerator.String(uuid.v4()),
+            MessageId: entityGenerator.String(messageId),
+            Data: entityGenerator.String(speed),
+            Triggered: entityGenerator.String(triggeredTime)
         }
-    });
+        console.log("task created for table insertion [" + task.stringify + "]")
+
+        tableSvc.insertEntity(storageTable, task, function (error) {
+            if (!error) {
+                console.log("message [" + task.MessageId + "] successfully processed + inserted")
+                res.status(200).send("{\"messageId\":\"" + task.MessageId + "\"}")
+            }
+            else {
+                console.log("message [" + task.MessageId + "] processed; insertion failed")
+                console.error(error)
+                res.sendStatus(500)
+            }
+        })
+    }
+    else {
+        console.error(error)
+    }
 }
-   
 
-module.exports = router;
+var processError = function (reason) {
+    console.log("Error:");
+    console.log(reason);
+}
 
+var setNextCheck = function () {
+    setTimeout(checkMessages, 1000);
+}
 
-
-
-
-// var message = {
-//     body: 'testing 1 2 3',
-//     customProperties: {
-//         customProp: 0
-//     }
-// }
-// console.log(message);
-
-
-// var subscriptions = serviceBusService.getSubscription(topic, subscription, function(error) {
-//       if (error) {
-//         console.log(error);
-//       }
-//       console.log(subscriptions);
-//     });
+//checkMessages();
