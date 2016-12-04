@@ -6,7 +6,7 @@ var azure = require('azure');
 var uuid = require('node-uuid');
 
 //set up the azure table service based on server credentials
-var tableSvc = azure.createTableService();
+var tableSvc = azure.createTableService('comexperimentapis', '5GLcDhmszAV59vzEMXljPizHtmFWp0x+d+Srzxtg5ShgYRJDjP66EM7zL4YQHqZDh5BHExnSF9MnWMx0Zdbpcg==');
 //var entityGenerator = azure.TableUtilities.entityGenerator;
 
 

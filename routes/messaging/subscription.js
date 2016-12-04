@@ -1,5 +1,5 @@
-//var express = require('express');
-//var router = express.Router();
+var express = require('express');
+var router = express.Router();
 var azure = require('azure');
 
 // set up azure storage
@@ -7,7 +7,7 @@ var azure_storage = require('azure-storage');
 var entityGenerator = azure_storage.TableUtilities.entityGenerator;
 var storageTable = 'vehicle';
 var storagePartition = 'speed';
-var tableSvc = azure.createTableService();
+var tableSvc = azure.createTableService('comexperimentapis', '5GLcDhmszAV59vzEMXljPizHtmFWp0x+d+Srzxtg5ShgYRJDjP66EM7zL4YQHqZDh5BHExnSF9MnWMx0Zdbpcg==');
 
 //used to generate uuid for the table RowKey
 var uuid = require('node-uuid');
@@ -90,3 +90,5 @@ var setNextCheck = function () {
 }
 
 //checkMessages();
+
+module.exports = router;
