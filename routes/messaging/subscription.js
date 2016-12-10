@@ -30,27 +30,25 @@ var serviceBusService = azure.createServiceBusService(connectionString);
 
 /* GET messages. */
 router.get('/v1/messages/retrieve', function(req, res, next) {
-    checkMessages();
+    checkMessages(res);
 //getMessages(res);
 //res.sendStatus(200);
 });
 
-var checkMessages = function () {
-    serviceBusService.receiveSubscriptionMessage(topic, subscription)
-        //serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage))
-        .then(processMessage)
-        .catch(processError)
-        .finally(setNextCheck);
-};
+var checkMessages = function (res) {
+    //serviceBusService.receiveSubscriptionMessage(topic, subscription)
+        serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
+            if (!error) {
+                var messageId = receivedMessage.brokerProperties.MessageId
 
-var processMessage = function (error, receivedMessage) {
-    if (!error) {
-        console.log("message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]")
-
+        console.log("message [" + messageId + "] received [" + JSON.stringify(receivedMessage) + "]")
+        
         var message = JSON.parse(receivedMessage.body)
+        
+        console.log("parsed message body ["+JSON.stringify(message)+"]")
+
         var speed = message.speed
         var triggeredTime = message.triggeredTime
-        var messageId = message.brokerProperties.MessageId
 
         console.log("data extracted speed:[" + speed + "], triggeredTime:[" + triggeredTime + "]")
 
@@ -61,15 +59,15 @@ var processMessage = function (error, receivedMessage) {
             Data: entityGenerator.String(speed),
             Triggered: entityGenerator.String(triggeredTime)
         }
-        console.log("task created for table insertion [" + task.stringify + "]")
+        console.log("task created for table insertion [" + JSON.stringify(task) + "]")
 
         tableSvc.insertEntity(storageTable, task, function (error) {
             if (!error) {
-                console.log("message [" + task.MessageId + "] successfully processed + inserted")
-                res.status(200).send("{\"messageId\":\"" + task.MessageId + "\"}")
+                console.log("message [" + task.MessageId.MessageId._ + "] successfully processed + inserted")
+                res.status(200).send("{\"messageId\":\"" + task.MessageId._ + "\"}")
             }
             else {
-                console.log("message [" + task.MessageId + "] processed; insertion failed")
+                console.log("message [" + task.MessageId._ + "] processed; insertion failed")
                 console.error(error)
                 res.sendStatus(500)
             }
@@ -78,7 +76,9 @@ var processMessage = function (error, receivedMessage) {
     else {
         console.error(error)
     }
-}
+        }
+        )};
+
 
 var processError = function (reason) {
     console.log("Error:");
