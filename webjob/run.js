@@ -13,11 +13,11 @@ var tableSvc = azure.createTableService();
 var uuid = require('node-uuid');
 
 // set up service bus topic/subscription
-var connectionString = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=RootManagerSharedAccessKey;SharedAccessKey=8dhjlMuBYr6ck4QRG0HGttktDZLe6EkcucD0Gjmyp9A=;";
-var topic = "iftttmessagestopic";
-var subscription = "IFTTTBMWMessagesSubscription";
+var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=7Qs0uHIPDYwu89gjbzIL61T4OQ9gHHbSrOaF39LsCDE=";
+var topic = "ifttt_messages_topic";
+var subscription = "ifttt_messages_subscription";
 
-var serviceBusService = azure.createServiceBusService(connectionString);
+var serviceBusService = azure.createServiceBusService(connectionStringManage);
 
 // /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -29,21 +29,14 @@ var serviceBusService = azure.createServiceBusService(connectionString);
 // });
 
 /* GET messages. */
-router.get('/v1/messages/retrieve', function(req, res, next) {
-    checkMessages();
+//router.get('/v1/messages/retrieve', function(req, res, next) {
+   
 //getMessages(res);
 //res.sendStatus(200);
-});
+//});
 
-var checkMessages = function () {
-    serviceBusService.receiveSubscriptionMessage(topic, subscription)
-        //serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage))
-        .then(processMessage)
-        .catch(processError)
-        .finally(setNextCheck);
-};
-
-var processMessage = function (error, receivedMessage) {
+function checkMessages() {
+        serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
     if (!error) {
         console.log("message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]")
 
@@ -66,27 +59,18 @@ var processMessage = function (error, receivedMessage) {
         tableSvc.insertEntity(storageTable, task, function (error) {
             if (!error) {
                 console.log("message [" + task.MessageId + "] successfully processed + inserted")
-                res.status(200).send("{\"messageId\":\"" + task.MessageId + "\"}")
+                //res.status(200).send("{\"messageId\":\"" + task.MessageId + "\"}")
             }
             else {
                 console.log("message [" + task.MessageId + "] processed; insertion failed")
                 console.error(error)
-                res.sendStatus(500)
+                //res.sendStatus(500)
             }
         })
     }
     else {
         console.error(error)
     }
-}
-
-var processError = function (reason) {
-    console.log("Error:");
-    console.log(reason);
-}
-
-var setNextCheck = function () {
-    setTimeout(checkMessages, 1000);
-}
+})};
 
 checkMessages();

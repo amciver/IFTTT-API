@@ -7,15 +7,15 @@ var azure_storage = require('azure-storage');
 var entityGenerator = azure_storage.TableUtilities.entityGenerator;
 var storageTable = 'vehicle';
 var storagePartition = 'speed';
-var tableSvc = azure.createTableService('comexperimentapis', '');
+var tableSvc = azure.createTableService('comexperimentapis', '5GLcDhmszAV59vzEMXljPizHtmFWp0x+d+Srzxtg5ShgYRJDjP66EM7zL4YQHqZDh5BHExnSF9MnWMx0Zdbpcg==');
 
 //used to generate uuid for the table RowKey
 var uuid = require('node-uuid');
 
 // set up service bus topic/subscription
-var connectionString = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=RootManagerSharedAccessKey;SharedAccessKey=";
-var topic = "iftttmessagestopic";
-var subscription = "IFTTTBMWMessagesSubscription";
+var connectionString = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=RootManagerSharedAccessKey;SharedAccessKey=8dhjlMuBYr6ck4QRG0HGttktDZLe6EkcucD0Gjmyp9A=";
+var topic = "ifttt_messages_topic";
+var subscription = "ifttt_messages_subscription";
 
 var serviceBusService = azure.createServiceBusService(connectionString);
 
