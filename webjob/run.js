@@ -29,21 +29,26 @@ var serviceBusService = azure.createServiceBusService(connectionStringManage);
 // });
 
 /* GET messages. */
-//router.get('/v1/messages/retrieve', function(req, res, next) {
+// router.get('/v1/messages/retrieve', function(req, res, next) {
    
-//getMessages(res);
-//res.sendStatus(200);
-//});
+// getMessages(res);
+// res.sendStatus(200);
+// });
 
 function checkMessages() {
         serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
     if (!error) {
-        console.log("message [" + receivedMessage.brokerProperties.MessageId + "] received [" + JSON.stringify(receivedMessage) + "]")
 
+        var messageId = receivedMessage.brokerProperties.MessageId
+
+        console.log("message [" + messageId + "] received [" + JSON.stringify(receivedMessage) + "]")
+        
         var message = JSON.parse(receivedMessage.body)
+        
+        console.log("parsed message body ["+JSON.stringify(message)+"]")
+
         var speed = message.speed
         var triggeredTime = message.triggeredTime
-        var messageId = message.brokerProperties.MessageId
 
         console.log("data extracted speed:[" + speed + "], triggeredTime:[" + triggeredTime + "]")
 
@@ -59,12 +64,10 @@ function checkMessages() {
         tableSvc.insertEntity(storageTable, task, function (error) {
             if (!error) {
                 console.log("message [" + task.MessageId + "] successfully processed + inserted")
-                //res.status(200).send("{\"messageId\":\"" + task.MessageId + "\"}")
             }
             else {
                 console.log("message [" + task.MessageId + "] processed; insertion failed")
                 console.error(error)
-                //res.sendStatus(500)
             }
         })
     }
