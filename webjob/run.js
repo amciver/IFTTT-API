@@ -19,22 +19,6 @@ var subscription = "ifttt_messages_subscription";
 
 var serviceBusService = azure.createServiceBusService(connectionStringManage);
 
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'BMW IFTTT SUBSCRIPTION' });
-// });
-
-// router.get('/v1/messages/purge', function(req, res, next) {
-//   res.sendStatus(200);
-// });
-
-/* GET messages. */
-// router.get('/v1/messages/retrieve', function(req, res, next) {
-   
-// getMessages(res);
-// res.sendStatus(200);
-// });
-
 function checkMessages() {
         serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
     if (!error) {
