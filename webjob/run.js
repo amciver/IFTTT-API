@@ -13,7 +13,7 @@ var tableSvc = azure.createTableService();
 var uuid = require('node-uuid');
 
 // set up service bus topic/subscription
-var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=";
+var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=GS91W8OBbkxAUS4wlHNNyZO0Ud7KAjqqGXTL2lkhGe0=";
 var topic = "ifttt_messages_topic";
 var subscription = "ifttt_messages_subscription";
 

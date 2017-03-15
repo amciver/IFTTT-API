@@ -8,10 +8,10 @@ var uuid = require('node-uuid');
 //set up the azure table service based on server credentials
 var tableSvc = azure.createTableService('comexperimentapis', '');
 
-var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey="
+var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=GS91W8OBbkxAUS4wlHNNyZO0Ud7KAjqqGXTL2lkhGe0="
 var topic = "ifttt_messages_topic";
 
-var connectionStringSend = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_send;SharedAccessKey=";
+var connectionStringSend = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_send;SharedAccessKey=EHp9GRr27PaXl62RQ7cuEQOf9QVss7t42ODnjafziWI=";
 
 //make sure that the topic exists and was not removed; creation taking place within portal
 var serviceBusService = azure.createServiceBusService(connectionStringManage);
@@ -29,6 +29,10 @@ serviceBusService.createTopicIfNotExists(topic ,function(error){
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'IFTTT' });
+});
+
+router.get('/testing', function(req, res, next) {
+  res.send('TESTING');
 });
 
 /* GET IFTTT definition */
