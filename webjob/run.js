@@ -7,7 +7,7 @@ var azure_storage = require('azure-storage');
 var entityGenerator = azure_storage.TableUtilities.entityGenerator;
 var storageTable = 'vehicle';
 var storagePartition = 'speed';
-var tableSvc = azure.createTableService();
+var tableSvc = azure.createTableService('comexperimentapis', 'gMnGunamr6dmlclwJIE1PmgBJ/qwP6WZsC6aw0UuZd9BxStFdrgLQ7HbK7hBhCJRoW/kASZaLz5O+tm1R91rKg==');
 
 //used to generate uuid for the table RowKey
 var uuid = require('node-uuid');
