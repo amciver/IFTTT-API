@@ -6,19 +6,12 @@ var azure = require('azure');
 var uuid = require('node-uuid');
 
 //set up the azure table service based on server credentials
-var tableSvc = azure.createTableService('comexperimentapis', '5GLcDhmszAV59vzEMXljPizHtmFWp0x+d+Srzxtg5ShgYRJDjP66EM7zL4YQHqZDh5BHExnSF9MnWMx0Zdbpcg==');
-//var entityGenerator = azure.TableUtilities.entityGenerator;
+var tableSvc = azure.createTableService('comexperimentapis', '');
 
-
-//var ns = 'com-experiment-messaging';
-//var serviceBusService = azure.createServiceBusService(ns);
-
-var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=7Qs0uHIPDYwu89gjbzIL61T4OQ9gHHbSrOaF39LsCDE="
+var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey="
 var topic = "ifttt_messages_topic";
 
-var connectionStringSend = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_send;SharedAccessKey=zxNlAZOgMSbp2AX0arR0jTrR4t9rGo4yhkBG1r9gKto=";
-//var connectionString = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=RootManagerSharedAccessKey;SharedAccessKey=8dhjlMuBYr6ck4QRG0HGttktDZLe6EkcucD0Gjmyp9A=;";
-
+var connectionStringSend = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_send;SharedAccessKey=";
 
 //make sure that the topic exists and was not removed; creation taking place within portal
 var serviceBusService = azure.createServiceBusService(connectionStringManage);
