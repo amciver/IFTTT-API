@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var routesIFTTT = require('./routes/api/ifttt');
-var routesMessaging = require('./routes/messaging/subscription')
 
 var app = express();
 
