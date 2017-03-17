@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var azure = require('azure');
+var azure_sb = require('azure-sb');
 
 //used to generate uuid for MessageId
 var uuid = require('node-uuid');
@@ -11,7 +11,7 @@ var topic = "ifttt_messages_topic";
 var subscription = "ifttt_messages_subscription";
 
 //make sure that the topic exists and was not removed; creation taking place within portal
-var serviceBusService = azure.createServiceBusService(connectionStringManage);
+var serviceBusService = azure_sb.createServiceBusService(connectionStringManage);
 serviceBusService.createTopicIfNotExists(topic, function (error) {
   if (!error) {
     console.log('topic [' + topic + '] successfully created and/or already exists');

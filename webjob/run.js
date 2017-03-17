@@ -1,6 +1,8 @@
 //var express = require('express');
 //var router = express.Router();
-var azure = require('azure');
+
+//set up azure servicebus
+var azure_sb = require('azure-sb');
 
 // set up azure storage
 var azure_storage = require('azure-storage');
@@ -17,7 +19,7 @@ var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.
 var topic = "ifttt_messages_topic";
 var subscription = "ifttt_messages_subscription";
 
-var serviceBusService = azure.createServiceBusService(connectionStringManage);
+var serviceBusService = azure_sb.createServiceBusService(connectionStringManage);
 
 function checkMessages() {
         serviceBusService.receiveSubscriptionMessage(topic, subscription, function (error, receivedMessage) {
