@@ -5,3 +5,4 @@ azure.err
 .DS_store
 bin
 *.log
+*.swp
