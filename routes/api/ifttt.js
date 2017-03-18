@@ -41,7 +41,7 @@ router.get('/v1/status', function (req, res) {
 
 /* GET message previously posted to IFTTT API */
 router.get('/v1/message', function (req, res, next) {
-    serviceBusService.receiveSubscriptionMessage(topic, subscription,
+    serviceBusService.receiveSubscriptionMessage(topic, subscription, { isPeekLock: true }, 
         function (error, receivedMessage) {
             if (!error) {
                 var messageId = receivedMessage.brokerProperties.MessageId
