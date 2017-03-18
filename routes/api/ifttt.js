@@ -5,8 +5,8 @@ var azure_sb = require('azure-sb');
 //used to generate uuid for MessageId
 var uuid = require('node-uuid');
 
-var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=GS91W8OBbkxAUS4wlHNNyZO0Ud7KAjqqGXTL2lkhGe0="
-var connectionStringSend = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_send;SharedAccessKey=EHp9GRr27PaXl62RQ7cuEQOf9QVss7t42ODnjafziWI=";
+var connectionStringManage = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_manage;SharedAccessKey=key"
+var connectionStringSend = "Endpoint=sb://com-experiment-messaging.servicebus.windows.net/;SharedAccessKeyName=ifttt_policy_send;SharedAccessKey=key";
 var topic = "ifttt_messages_topic";
 var subscription = "ifttt_messages_subscription";
 
