@@ -3,6 +3,5 @@ azure.err
 *.publishsettings
 *.zip
 .DS_store
-bin
 *.log
 *.swp
