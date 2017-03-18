@@ -7,7 +7,7 @@
      "stop": "pkill -9 SIGINT ifttt-webjob"
   },
   "dependencies": {
-    "azure": "~0.10.3",
+    "azure-sb": "~0.10.4",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
